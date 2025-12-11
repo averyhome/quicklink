@@ -29,7 +29,7 @@ Add QuickLink to your project's `idf_component.yml`:
 ```yaml
 dependencies:
   quicklink:
-    git: "https://github.com/yourusername/quicklink.git"
+    git: "https://github.com/averyhome/quicklink.git"
     version: "^1.0.0"
 ```
 
@@ -218,8 +218,8 @@ Proprietary - See LICENSE file for details
 ## Support
 
 For issues, questions, or feedback, please visit:
-- GitHub Issues: https://github.com/yourusername/quicklink/issues
-- Documentation: https://github.com/yourusername/quicklink/wiki
+- GitHub Issues: https://github.com/averyhome/quicklink/issues
+- Documentation: https://github.com/averyhome/quicklink/wiki
 
 ## Changelog
 
