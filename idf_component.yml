@@ -1,26 +1,26 @@
 version: "1.0.0"
-description: "QuickLink - Simple BLE WiFi Provisioning Component for ESP32"
-
-maintainers:
-  - name: "Avery"
-    email: "firefrog@averyhome.com"
-
-url: "https://github.com/averyhome/quicklink"
-repository:
-  type: git
-  url: "https://github.com/averyhome/quicklink.git"
+description: >
+  Simple BLE WiFi Provisioning Component for ESP32.
+  Enables secure WiFi credential provisioning via Bluetooth Low Energy
+  with ECDH key exchange and AES-GCM encryption.
+  Supports BLE-only mode for WiFi-less ESP32 variants.
 
 dependencies:
-  idf: ">=5.0"
+  idf: ">=5.0.0"
+  esp_common: "*"
+  esp_driver_gpio: "*"
+  esp_driver_uart: "*"
   nvs_flash: "*"
-  mbedtls: "*"
+  bt: "*"
 
-component_version: "1.0.0"
+documentation: https://github.com/averyhome/quicklink
+repository: https://github.com/averyhome/quicklink.git
+issues: https://github.com/averyhome/quicklink/issues
+url: https://github.com/averyhome/quicklink
 
 tags:
   - ble
   - wifi
   - provisioning
-  - esp32
-
-documentation: "https://github.com/averyhome/quicklink/blob/main/README.md"
+  - security
+  - provisioning
