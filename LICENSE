@@ -1,0 +1,103 @@
+QUICKLINK PROPRIETARY LICENSE
+
+Version 1.0, January 2025
+
+TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+1. Definitions
+
+"License" shall mean the terms and conditions for use, reproduction, and distribution.
+"Licensor" shall mean the copyright owner that is granting this License.
+"Legal Entity" shall mean the union of the acting entity and all other entities that control, are controlled by, or are under common control with that entity.
+"You" (or "Your") shall mean an individual or Legal Entity exercising permissions granted by this License.
+"Source" form shall mean the preferred form for making modifications.
+"Object" form shall mean any form resulting from mechanical transformation or translation of a Source form.
+"Work" shall mean the work of authorship, whether in Source or Object form, made available under the License.
+"Derivative Works" shall mean any work that is based on the Work.
+"Contribution" shall mean any work of authorship submitted to Licensor for inclusion in the Work.
+"Contributor" shall mean Licensor and any Legal Entity on behalf of which a Contribution has been received by Licensor and subsequently incorporated within the Work.
+
+2. Grant of License
+
+Subject to the terms and conditions of this License, Licensor hereby grants You a worldwide, non-exclusive, royalty-free, non-transferable license to use the Work solely in binary object form, on hardware compatible with the ESP32 family of microcontrollers.
+
+2.1 Permitted Use
+
+You may:
+- Use the Work (in binary Object form only) for personal, educational, and commercial projects
+- Distribute devices embedded with the Work (in binary Object form only) to end users
+- Modify Your own software to interact with the Work through its public API
+- Distribute the Work with Your own software, provided:
+  a) You do not reverse engineer, decompile, or attempt to derive Source form
+  b) You include a copy of this License with any distribution
+  c) You clearly indicate any modifications made to Your software
+
+2.2 Prohibited Uses
+
+You may NOT:
+- Reverse engineer, decompile, disassemble, or otherwise attempt to derive Source form
+- Remove or obscure any proprietary notices or labels on the Work
+- Redistribute the Work as a standalone library or component (except as permitted in Section 2.1)
+- Use the Work to create a competing product that provides similar provisioning functionality
+- Modify the Work itself or create derivative works of the Work in Source form
+- Sublicense the Work to third parties, except as embedded in Your end product
+- Use the Work to provide provisioning or networking services to third parties as a service offering
+
+3. Redistribution
+
+The binary distribution package may be redistributed with software products built upon it, provided that:
+
+3.1 Source Code
+- You do NOT have the right to distribute the Source form of the Work
+- You must not attempt to reconstruct or decompile the Source
+
+3.2 License Notice
+- Any redistribution must include a prominent notice stating:
+  "This product contains QuickLink technology. Copyright [Year] [Licensor]. Used under license."
+- A copy of this License must be included with all redistributions
+- Any modifications to Your software must be clearly documented
+
+3.3 Binary Form
+- You may only redistribute the Work in binary Object form
+- The binary form must be used only on ESP32 family microcontrollers
+- You may distribute the binary as part of a compiled firmware image for ESP32 devices
+
+4. Intellectual Property Rights
+
+4.1 Ownership
+- Licensor retains all right, title, and interest in the Work
+- You retain all right, title, and interest in Your own software
+- Any modifications or additions are considered part of Your software, not the Work
+
+4.2 Feedback
+- Any feedback, suggestions, or improvements You provide may be freely used by Licensor
+- Licensor is not obligated to include such feedback in the Work
+
+5. Warranty and Disclaimer
+
+THE WORK IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT.
+
+IN NO EVENT SHALL LICENSOR BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE WORK.
+
+6. Limitations
+
+6.1 Term
+- This License is effective until terminated
+- Your rights under this License terminate automatically upon any breach of its terms
+- Upon termination, You must cease all use of the Work
+
+6.2 No Warranty
+- Licensor makes no representation or warranty regarding the Work
+- Licensor assumes no liability for the fitness of the Work for any particular purpose
+
+7. Governing Law
+
+This License shall be governed by and construed in accordance with the laws of the jurisdiction where Licensor is located, without regard to its conflict of law provisions.
+
+8. Entire Agreement
+
+This License constitutes the entire agreement between the parties with respect to the Work and supersedes all prior and contemporaneous agreements and understandings.
+
+---
+
+For licensing inquiries, partnerships, or source code licenses, please contact the copyright holder.

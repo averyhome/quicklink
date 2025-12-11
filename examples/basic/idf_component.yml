@@ -1,0 +1,13 @@
+## Manifest file for example project dependency on QuickLink component
+
+version: "1.0.0"
+
+description: >
+  Basic QuickLink provisioning example demonstrating BLE WiFi provisioning
+
+examples:
+  - name: quicklink_basic
+    title: "QuickLink Basic Example"
+    description: "Simple WiFi provisioning via BLE"
+    preserve_files:
+      - "main.c"

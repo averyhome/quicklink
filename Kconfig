@@ -1,0 +1,26 @@
+# QuickLink Component Configuration
+
+menu "QuickLink"
+
+    config QUICKLINK_ENABLE_WIFI
+        bool "Enable WiFi provisioning support"
+        default y
+        help
+            Enable WiFi provisioning and link WiFi libraries. Disable to build
+            BLE-only firmware without pulling esp_wifi/esp_event (e.g. when the
+            target has no WiFi or you only need BLE services).
+
+    config QUICKLINK_STRIP_DEBUG
+        bool "Strip debug symbols"
+        default y
+        help
+            Strip debug symbols to reduce size and protect code.
+
+    config QUICKLINK_WIFI_MAX_RETRY
+        int "WiFi max retry"
+        default 5
+        range 1 20
+        help
+            Max WiFi connection retry attempts.
+
+endmenu
