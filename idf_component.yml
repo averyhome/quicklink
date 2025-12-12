@@ -1,3 +1,4 @@
+name: quicklink
 version: "1.0.0"
 description: >
   Simple BLE WiFi Provisioning Component for ESP32.
