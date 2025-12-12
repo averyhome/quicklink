@@ -40,19 +40,14 @@ jobs:
           pip --version
 
           echo "---- pip installation locations ----"
-          python - << 'EOF'
-import sys, site
-print("sys.executable:", sys.executable)
-print("site.getusersitepackages():", site.getusersitepackages())
-print("site.getsitepackages():", site.getsitepackages())
-EOF
+          python -c "import sys, site; print('sys.executable:', sys.executable); print('usersite:', site.getusersitepackages()); print('sitepackages:', site.getsitepackages())"
 
           echo "---- list bin directories ----"
           ls -al $HOME/.local/bin || echo "~/.local/bin not exist"
           ls -al /usr/local/bin || echo "/usr/local/bin not exist"
 
-          echo "---- pip show idf-component-manager ----"
-          pip show idf-component-manager || echo "Not installed"
+          echo '---- pip show idf-component-manager ----'
+          pip show idf-component-manager || echo 'Not installed'
 
           echo "---- find idf-component ----"
           find / -name "idf-component" 2>/dev/null | head
