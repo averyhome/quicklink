@@ -60,7 +60,7 @@ jobs:
         env:
           IDF_COMPONENT_API_TOKEN: ${{ secrets.ESP_COMPONENTS }}
         run: |
-          python -m idf_component_manager upload-component --namespace averyhome
+          python -m idf_component_manager publish
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
