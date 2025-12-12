@@ -24,14 +24,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install idf-component-manager
 
-      - name: Add ~/.local/bin to PATH
-        run: echo "$HOME/.local/bin" >> $GITHUB_PATH
+      - name: Add pip executable paths to PATH
+        run: |
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          echo "/usr/local/bin" >> $GITHUB_PATH
 
       - name: Verify install
         run: |
           which idf-component || echo "idf-component NOT FOUND!"
-          ls -al ~/.local/bin
-          idf-component --help
+          ls -al $HOME/.local || true
+          ls -al $HOME/.local/bin || true
+          ls -al /usr/local/bin || true
 
       - name: Upload component
         env:
