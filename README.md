@@ -41,46 +41,143 @@ idf.py build
 
 ## Quick Start
 
-### 1. Initialize QuickLink
+### 1. Basic Example
 
 ```c
 #include "quicklink.h"
+
+static void event_handler(quicklink_event_t event, void *data, void *ctx)
+{
+    switch (event) {
+        case QUICKLINK_EVENT_STARTED:
+            ESP_LOGI(TAG, "QuickLink started");
+            break;
+        case QUICKLINK_EVENT_BLE_CONNECTED:
+            ESP_LOGI(TAG, "BLE client connected");
+            break;
+        case QUICKLINK_EVENT_CRED_RECEIVED:
+            ESP_LOGI(TAG, "WiFi credentials received");
+            break;
+        case QUICKLINK_EVENT_WIFI_CONNECTED:
+            ESP_LOGI(TAG, "WiFi connected successfully");
+            break;
+        case QUICKLINK_EVENT_WIFI_FAILED:
+            ESP_LOGE(TAG, "WiFi connection failed");
+            break;
+        case QUICKLINK_EVENT_STOPPED:
+            ESP_LOGI(TAG, "QuickLink stopped");
+            break;
+        default:
+            break;
+    }
+}
 
 void app_main(void) {
     quicklink_config_t config = {
         .device_name = "MyDevice",
         .enable_wifi_provisioning = true,
         .ble_auto_stop = false,
-        .event_cb = on_quicklink_event,
+        .event_cb = event_handler,
         .user_ctx = NULL,
     };
     
-    quicklink_start(&config);
+    quicklink_status_t ret = quicklink_start(&config);
+    if (ret != QUICKLINK_OK) {
+        ESP_LOGE(TAG, "Failed to start QuickLink: %d", ret);
+        return;
+    }
 }
 ```
 
-### 2. Handle Events
+### 2. Full-Featured Example
+
+With Device Info, Battery Service, and Custom GATT Service:
 
 ```c
-void on_quicklink_event(quicklink_event_t event, void *data, void *user_ctx) {
-    switch (event) {
-    case QUICKLINK_EVENT_STARTED:
-        ESP_LOGI(TAG, "QuickLink started");
-        break;
-    case QUICKLINK_EVENT_BLE_CONNECTED:
-        ESP_LOGI(TAG, "BLE client connected");
-        break;
-    case QUICKLINK_EVENT_CRED_RECEIVED:
-        ESP_LOGI(TAG, "WiFi credentials received");
-        break;
-    case QUICKLINK_EVENT_WIFI_CONNECTED:
-        ESP_LOGI(TAG, "WiFi connected successfully");
-        break;
-    case QUICKLINK_EVENT_WIFI_FAILED:
-        ESP_LOGI(TAG, "WiFi connection failed");
-        break;
-    default:
-        break;
+#include "quicklink.h"
+#include "host/ble_uuid.h"
+#include "host/ble_gatt.h"
+
+/* Custom Service UUID: 12345678-1234-1234-1234-123456789abc */
+static const ble_uuid128_t custom_svc_uuid =
+    BLE_UUID128_INIT(0xbc, 0x9a, 0x78, 0x56, 0x34, 0x12, 0x34, 0x12,
+                     0x34, 0x12, 0x34, 0x12, 0x78, 0x56, 0x34, 0x12);
+
+/* Custom Characteristic UUID: 12345678-1234-1234-1234-123456789abd */
+static const ble_uuid128_t custom_chr_uuid =
+    BLE_UUID128_INIT(0xbd, 0x9a, 0x78, 0x56, 0x34, 0x12, 0x34, 0x12,
+                     0x34, 0x12, 0x34, 0x12, 0x78, 0x56, 0x34, 0x12);
+
+static uint8_t custom_data[20] = "Hello QuickLink!";
+
+/* Custom characteristic access callback */
+static int custom_chr_access(uint16_t conn_handle, uint16_t attr_handle,
+                             struct ble_gatt_access_ctxt *ctxt, void *arg)
+{
+    if (ctxt->op == BLE_GATT_ACCESS_OP_READ_CHR) {
+        return os_mbuf_append(ctxt->om, custom_data, sizeof(custom_data)) == 0 
+               ? 0 : BLE_ATT_ERR_INSUFFICIENT_RES;
+    } else if (ctxt->op == BLE_GATT_ACCESS_OP_WRITE_CHR) {
+        uint16_t len = OS_MBUF_PKTLEN(ctxt->om);
+        if (len > sizeof(custom_data)) len = sizeof(custom_data);
+        ble_hs_mbuf_to_flat(ctxt->om, custom_data, len, NULL);
+        ESP_LOGI(TAG, "Custom data written: %s", custom_data);
+        return 0;
+    }
+    return BLE_ATT_ERR_UNLIKELY;
+}
+
+/* Define custom GATT service */
+static const struct ble_gatt_svc_def custom_services[] = {
+    {
+        .type = BLE_GATT_SVC_TYPE_PRIMARY,
+        .uuid = &custom_svc_uuid.u,
+        .characteristics = (struct ble_gatt_chr_def[]) {
+            {
+                .uuid = &custom_chr_uuid.u,
+                .access_cb = custom_chr_access,
+                .flags = BLE_GATT_CHR_F_READ | BLE_GATT_CHR_F_WRITE,
+            },
+            {0}
+        }
+    },
+    {0}
+};
+
+void app_main(void)
+{
+    /* Define device information */
+    static const quicklink_device_info_t device_info = {
+        .manufacturer = "YourCompany",
+        .model = "YourModel",
+        .serial = "SN20240101001",
+        .hw_version = "1.0",
+        .fw_version = "1.0.0"
+    };
+
+    /* Configure QuickLink with all features */
+    quicklink_config_t config = {
+        .device_name = "MyDevice",
+        .event_cb = event_handler,
+        .user_ctx = NULL,
+        .ble_auto_stop = false,
+        .enable_wifi_provisioning = true,
+        .device_info = &device_info,        /* Enable Device Info Service */
+        .custom_services = custom_services  /* Add custom GATT services */
+    };
+
+    quicklink_status_t ret = quicklink_start(&config);
+    if (ret != QUICKLINK_OK) {
+        ESP_LOGE(TAG, "Failed to start QuickLink: %d", ret);
+        return;
+    }
+
+    /* Update battery level periodically */
+    uint8_t battery = 100;
+    while (1) {
+        vTaskDelay(pdMS_TO_TICKS(10000));
+        battery = (battery > 20) ? (battery - 5) : 100;
+        quicklink_set_battery_level(battery);
     }
 }
 ```
