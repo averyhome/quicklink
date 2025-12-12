@@ -8,7 +8,8 @@ on:
       - "v*"  # Only trigger on version tags (e.g., v1.0.0)
 
 permissions:
-  contents: read
+  contents: write
+  actions: read
 
 jobs:
   publish:
@@ -82,6 +83,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           body: |
             ## QuickLink v${{ steps.version.outputs.version }}
             
@@ -102,4 +104,5 @@ jobs:
             See [README.md](https://github.com/averyhome/quicklink) for documentation.
           draft: false
           prerelease: false
+          make_latest: true
         if: success()
