@@ -57,10 +57,11 @@ jobs:
           echo "📦 Publishing version: ${VERSION}"
 
       - name: Publish to ESP-IDF Component Registry
-        env:
-          IDF_COMPONENT_API_TOKEN: ${{ secrets.ESP_COMPONENTS }}
-        run: |
-          python -m idf_component_manager publish
+        uses: espressif/upload-component-to-registry@v1
+        with:
+          component_service_token: ${{ secrets.ESP_COMPONENTS  }}
+          namespace: averyhome
+          skip_pre_check: false
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
