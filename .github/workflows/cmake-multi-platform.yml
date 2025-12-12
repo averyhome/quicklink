@@ -58,25 +58,15 @@ jobs:
 
       - name: Publish to ESP-IDF Component Registry
         env:
-          IDF_COMPONENT_SERVICE_TOKEN: ${{ secrets.IDF_COMPONENT_API_TOKEN }}
+          IDF_COMPONENT_SERVICE_TOKEN: ${{ secrets.ESP_COMPONENTS }}
         run: |
-          # Extract version and namespace from idf_component.yml
-          VERSION=$(grep '^version:' idf_component.yml | head -1 | awk '{print $2}' | tr -d '"')
-          echo "Publishing QuickLink v${VERSION}..."
-          
-          # Install idf-component-manager with latest version
+          # Install latest idf-component-manager
           python -m pip install --upgrade idf-component-manager
           
-          # Create distribution package
-          tar -czf quicklink-${VERSION}.tar.gz \
-            --exclude='.git*' --exclude='__pycache__' --exclude='*.pyc' \
-            --exclude='build' --exclude='dist' \
-            --exclude='.github' \
-            CMakeLists.txt idf_component.yml Kconfig README.md LICENSE \
-            include/ lib/ examples/
+          # Publish component using Python module
+          python -m idf_component_manager upload --service-url https://api.components.espressif.com/
           
-          # Upload using manager
-          idf-component-manager upload --service-url https://api.components.espressif.com/
+          echo "✓ Component published successfully!"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
