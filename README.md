@@ -40,6 +40,7 @@ Add QuickLink to your project's `idf_component.yml`:
 dependencies:
   quicklink:
     git: "https://github.com/averyhome/quicklink.git"
+    path: "components/quicklink"
     version: "^1.0.2"
 ```
 
