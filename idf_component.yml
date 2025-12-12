@@ -1,5 +1,5 @@
 name: quicklink
-version: "1.0.0"
+version: "1.0.1"
 description: >
   Simple BLE WiFi Provisioning Component for ESP32.
   Enables secure WiFi credential provisioning via Bluetooth Low Energy
