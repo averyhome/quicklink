@@ -2,27 +2,36 @@ name: Release Component to ESP Registry
 on:
   push:
     tags:
-      - '*'
+      - "*"
 
 jobs:
   upload:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: "3.x"
 
-      - name: Install ESP Component Registry CLI
-        run: pip install idf-component-manager
+      - name: Install idf-component-manager
+        run: |
+          python -m pip install --upgrade pip
+          pip install idf-component-manager
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Verify install
+        run: |
+          which idf-component || echo "idf-component NOT FOUND!"
+          idf-component --help
 
       - name: Upload component
         env:
-          ESP_IDF_COMPONENT_API_TOKEN: ${{ secrets.ESP_COMPONENTS }}
+          ESP_IDF_COMPONENT_API_TOKEN: ${{ secrets.ESP_IDF_COMPONENT_API_TOKEN }}
         run: |
           idf-component upload
