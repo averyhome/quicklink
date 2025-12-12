@@ -59,14 +59,14 @@ jobs:
 
       - name: Publish to ESP-IDF Component Registry
         env:
-          IDF_COMPONENT_API_TOKEN: ${{ secrets.ESP_COMPONENTS }}
+          IDF_COMPONENT_API_TOKEN: ${{ secrets.ESP_IDF_COMPONENT_API_TOKEN }}
         run: |
           VERSION=${{ steps.version.outputs.version }}
           echo "Publishing QuickLink v${VERSION} to ESP-IDF Component Registry..."
           
           # Submit component to registry using REST API
           curl -X POST \
-            -H "Authorization: Bearer ${ESP_COMPONENTS}" \
+            -H "Authorization: Bearer ${ESP_IDF_COMPONENT_API_TOKEN}" \
             -H "Content-Type: application/json" \
             -d '{
               "component_service_url": "https://api.components.espressif.com/api/",
