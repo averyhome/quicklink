@@ -13,6 +13,16 @@ QuickLink is a lightweight, easy-to-use BLE WiFi provisioning component for ESP3
 - **Device Information Service** - Standard BLE device info (manufacturer, model, firmware, etc.)
 - **Minimal Dependencies** - Only requires NimBLE, mbedTLS, and NVS Flash
 
+## Air Link iOS App - Quick WiFi Provisioning via BLE
+
+<p align="center">
+  <img src="images/6-5%20Template%2054.png" width="250" alt="App Screenshot 1"/>
+  <img src="images/6-5%20Template%2055.png" width="250" alt="App Screenshot 2"/>
+  <img src="images/6-5%20Template%2056.png" width="250" alt="App Screenshot 3"/>
+</p>
+
+Use the Air Link iOS app to easily provision WiFi credentials to your ESP32 device via BLE. Simply scan for your device, connect, and configure WiFi settings securely.
+
 ## Supported Targets
 
 - ESP32
@@ -30,7 +40,7 @@ Add QuickLink to your project's `idf_component.yml`:
 dependencies:
   quicklink:
     git: "https://github.com/averyhome/quicklink.git"
-    version: "^1.0.0"
+    version: "^1.0.2"
 ```
 
 Then rebuild your project:
