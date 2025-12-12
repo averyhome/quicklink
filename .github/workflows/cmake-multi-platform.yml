@@ -83,7 +83,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.ESP_COMPONENTS }}
           body: |
             ## QuickLink v${{ steps.version.outputs.version }}
             
