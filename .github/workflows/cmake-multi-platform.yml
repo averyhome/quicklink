@@ -11,24 +11,22 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Set up Python
+      - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
-          python-version: "3.x"
+          python-version: "3.11"
 
-      - name: Install idf-component-manager
+      - name: Install ESP Component Manager CLI
         run: |
           python -m pip install --upgrade pip
-          pip install idf-component-manager
+          pip install idf-component-manager idf-component-manager-cli
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
-      - name: Debug installation
+      - name: Verify installation
         run: |
-          which component-manager || echo "component-manager not found"
-          component-manager --help || echo "component-manager help failed"
+          which component-manager
+          component-manager --version
 
       - name: Upload component
         env:
