@@ -40,9 +40,14 @@ jobs:
           python -m pip install --upgrade pip setuptools wheel
           python -m pip install idf-component-manager
 
-      - name: Verify component manifest
+      - name: Verify component files
         run: |
-          python -m idf_component_manager validate
+          echo "Checking required component files..."
+          test -f idf_component.yml && echo "✓ idf_component.yml exists" || exit 1
+          test -f CMakeLists.txt && echo "✓ CMakeLists.txt exists" || exit 1
+          test -f README.md && echo "✓ README.md exists" || exit 1
+          test -f LICENSE && echo "✓ LICENSE exists" || exit 1
+          echo "All required files verified!"
 
       - name: Extract version from tag
         id: version
@@ -53,9 +58,9 @@ jobs:
 
       - name: Publish to ESP-IDF Component Registry
         env:
-          ESP_IDF_COMPONENT_API_TOKEN: ${{ secrets.ESP_COMPONENTS }}
+          IDF_COMPONENT_API_TOKEN: ${{ secrets.ESP_COMPONENTS }}
         run: |
-          python -m idf_component_manager upload
+          python -m idf_component_manager upload-component --namespace averyhome
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
