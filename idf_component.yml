@@ -8,11 +8,6 @@ description: >
 
 dependencies:
   idf: ">=5.0.0"
-  esp_common: "*"
-  esp_driver_gpio: "*"
-  esp_driver_uart: "*"
-  nvs_flash: "*"
-  bt: "*"
 
 documentation: https://github.com/averyhome/quicklink
 repository: https://github.com/averyhome/quicklink.git
@@ -24,4 +19,3 @@ tags:
   - wifi
   - provisioning
   - security
-  - provisioning
