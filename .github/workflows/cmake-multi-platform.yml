@@ -1,35 +1,83 @@
 
 
-name: Release Component to ESP Registry
+name: Publish Component to ESP-IDF Registry
+
 on:
   push:
     tags:
-      - "*"
+      - "v*"  # Only trigger on version tags (e.g., v1.0.0)
+
+permissions:
+  contents: read
 
 jobs:
-  upload:
+  publish:
+    name: Publish Component
     runs-on: ubuntu-latest
+    environment: publish  # Optional: use GitHub environment for additional security
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Set up Python 3.11
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Install idf-component-manager
-        run: |
-          python -m pip install --upgrade pip
-          pip install idf-component-manager
+      - name: Cache Python dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
 
-      - name: Verify installation
+      - name: Install dependencies
         run: |
-          python -m idf_component_manager --help
+          python -m pip install --upgrade pip setuptools wheel
+          python -m pip install idf-component-manager
 
-      - name: Upload component
+      - name: Verify component manifest
+        run: |
+          python -m idf_component_manager validate
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "📦 Publishing version: ${VERSION}"
+
+      - name: Publish to ESP-IDF Component Registry
         env:
           ESP_IDF_COMPONENT_API_TOKEN: ${{ secrets.ESP_COMPONENTS }}
         run: |
           python -m idf_component_manager upload
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body: |
+            ## QuickLink v${{ steps.version.outputs.version }}
+            
+            This component has been published to the [ESP-IDF Component Registry](https://components.espressif.com).
+            
+            ### Installation
+            ```bash
+            idf.py add-dependency "averyhome/quicklink^${{ steps.version.outputs.version }}"
+            ```
+            
+            Or manually add to `idf_component.yml`:
+            ```yaml
+            dependencies:
+              quicklink:
+                version: "^${{ steps.version.outputs.version }}"
+            ```
+            
+            See [README.md](https://github.com/averyhome/quicklink) for documentation.
+          draft: false
+          prerelease: false
+        if: success()
