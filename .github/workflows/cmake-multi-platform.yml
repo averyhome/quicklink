@@ -23,37 +23,15 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install idf-component-manager
-
-      - name: Add pip executable paths to PATH
-        run: |
           echo "$HOME/.local/bin" >> $GITHUB_PATH
-          echo "/usr/local/bin" >> $GITHUB_PATH
 
-      - name: Debug pip installation
+      - name: Debug installation
         run: |
-          echo "---- python executable ----"
-          which python
-          python --version
-
-          echo "---- pip executable ----"
-          which pip
-          pip --version
-
-          echo "---- pip installation locations ----"
-          python -c "import sys, site; print('sys.executable:', sys.executable); print('usersite:', site.getusersitepackages()); print('sitepackages:', site.getsitepackages())"
-
-          echo "---- list bin directories ----"
-          ls -al $HOME/.local/bin || echo "~/.local/bin not exist"
-          ls -al /usr/local/bin || echo "/usr/local/bin not exist"
-
-          echo '---- pip show idf-component-manager ----'
-          pip show idf-component-manager || echo 'Not installed'
-
-          echo "---- find idf-component ----"
-          find / -name "idf-component" 2>/dev/null | head
+          which component-manager || echo "component-manager not found"
+          component-manager --help || echo "component-manager help failed"
 
       - name: Upload component
         env:
           ESP_IDF_COMPONENT_API_TOKEN: ${{ secrets.ESP_COMPONENTS }}
         run: |
-          idf-component upload
+          component-manager upload
