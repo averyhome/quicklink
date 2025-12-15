@@ -1,6 +1,6 @@
 ## Manifest file for example project dependency on QuickLink component
 
-version: "1.0.0"
+version: "1.0.2"
 
 description: >
   Basic QuickLink provisioning example demonstrating BLE WiFi provisioning
